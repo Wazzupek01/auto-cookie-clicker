@@ -1,15 +1,8 @@
-from itertools import product
-from lib2to3.pgen2.tokenize import printtoken
-from os import times
-from sys import intern
-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.webdriver.support.ui import WebDriverWait
 
 service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service)
@@ -45,16 +38,17 @@ while True:
     cookie.click()
     cookies_count = driver.find_element(By.ID, cookies_id).text.split(" ")[0]
     cookies_count = int(cookies_count.replace(",", ""))
-    
+
     for i in range(4):
         product_price = driver.find_element(By.ID, product_price_prefix + str(i)).text.replace(",", "")
-        
+
         if not product_price.isdigit():
             continue
-        
+
         product_price = int(product_price)
         if cookies_count >= product_price:
             product = driver.find_element(By.ID, product_prefix + str(i))
             product.click()
             break
+            
 driver.quit()
